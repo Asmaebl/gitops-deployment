@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: asmae-bouhlal
+  name: gitops-application
   labels:
-    app: asmae-bouhlal
+    app: gitops-application
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: asmae-bouhlal
+      app: gitops-application
   template:
     metadata:
       labels:
-        app: asmae-bouhlal
+        app: gitops-application
     spec:
       imagePullSecrets:
         - name: ghcr-secret
       containers:
-        - name: asmae-bouhlal
+        - name: gitops-application
           image: ghcr.io/asmaebl/gitops-application:42e3ce2415ebc3acc2d7341e2bb3ab2b2b778b31
           ports:
             - containerPort: 3000

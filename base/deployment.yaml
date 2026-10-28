@@ -18,7 +18,7 @@ spec:
         - name: ghcr-secret
       containers:
         - name: asmae-bouhlal
-          image: ghcr.io/asmaebl/gitops-application:58162774cd35fb120008cf35a9b8672719444d40
+          image: ghcr.io/asmaebl/gitops-application:42e3ce2415ebc3acc2d7341e2bb3ab2b2b778b31
           ports:
             - containerPort: 3000
           env:

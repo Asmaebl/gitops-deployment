@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: asmae-bouhlal
+  labels:
+    app: asmae-bouhlal
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: asmae-bouhlal
+  template:
+    metadata:
+      labels:
+        app: asmae-bouhlal
+    spec:
+      imagePullSecrets:
+        - name: ghcr-secret
+      containers:
+        - name: asmae-bouhlal
+          image: ghcr.io/asmaebl/gitops-application:58162774cd35fb120008cf35a9b8672719444d40
+          ports:
+            - containerPort: 3000
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: 3000
+            initialDelaySeconds: 3
+            periodSeconds: 5
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "64Mi"
+            limits:
+              cpu: "200m"
+              memory: "128Mi"
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            allowPrivilegeEscalation: false

@@ -18,7 +18,7 @@ spec:
         - name: ghcr-secret
       containers:
         - name: gitops-application
-          image: ghcr.io/asmaebl/gitops-application:42e3ce2415ebc3acc2d7341e2bb3ab2b2b778b31
+          image: ghcr.io/asmaebl/gitops-application:cb91da2ab76304a306be5ad23e92631e228f5a6d
           ports:
             - containerPort: 3000
           env:

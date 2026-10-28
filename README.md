@@ -3,7 +3,7 @@
 GitOps repository for the **k3s + GitOps internship project**.
 
 This repository contains the Kubernetes desired state of the
-[`asmae-bouhlal`](https://github.com/Asmaebl/gitops-application) application and
+[`gitops-application`](https://github.com/Asmaebl/gitops-application) application and
 the configuration required to reconcile it with either **Argo CD** or **Flux CD**.
 
 The project evaluates both GitOps controllers against the same application and
@@ -51,7 +51,7 @@ gitops-deployment
               k3s cluster
                   |
                   v
-          asmae-bouhlal
+          gitops-application
 ```
 
 Only one GitOps controller should actively reconcile the application at a time
@@ -325,9 +325,9 @@ Healthy
 Check the workload:
 
 ```sh
-sudo k3s kubectl get deployment asmae-bouhlal
+sudo k3s kubectl get deployment gitops-application
 sudo k3s kubectl get pods
-sudo k3s kubectl get service asmae-bouhlal
+sudo k3s kubectl get service gitops-application
 ```
 
 ---
@@ -343,7 +343,7 @@ replicas: 2
 To introduce temporary drift:
 
 ```sh
-sudo k3s kubectl scale deployment asmae-bouhlal --replicas=1
+sudo k3s kubectl scale deployment gitops-application --replicas=1
 ```
 
 The live cluster temporarily differs from Git:
@@ -359,7 +359,7 @@ Git-defined replica count.
 Observe the Deployment:
 
 ```sh
-sudo k3s kubectl get deployment asmae-bouhlal -w
+sudo k3s kubectl get deployment gitops-application -w
 ```
 
 The expected final state is again:
@@ -480,7 +480,7 @@ clusters/my-cluster/apps.yaml
 It defines a Flux `Kustomization` named:
 
 ```text
-asmae-bouhlal
+gitops-application
 ```
 
 The Kustomization uses:
@@ -557,7 +557,7 @@ sudo flux reconcile source git flux-system \
 Application reconciliation can be requested with:
 
 ```sh
-sudo flux reconcile kustomization asmae-bouhlal \
+sudo flux reconcile kustomization gitops-application \
   --with-source \
   --kubeconfig=/etc/rancher/k3s/k3s.yaml
 ```
@@ -572,13 +572,13 @@ automatically according to the configured intervals.
 Introduce temporary drift:
 
 ```sh
-sudo k3s kubectl scale deployment asmae-bouhlal --replicas=1
+sudo k3s kubectl scale deployment gitops-application --replicas=1
 ```
 
 Observe the Deployment:
 
 ```sh
-sudo k3s kubectl get deployment asmae-bouhlal -w
+sudo k3s kubectl get deployment gitops-application -w
 ```
 
 Because Git declares two replicas, Flux reconciliation restores:
@@ -596,25 +596,25 @@ This validates Git as the source of truth.
 Check the Deployment:
 
 ```sh
-sudo k3s kubectl get deployment asmae-bouhlal
+sudo k3s kubectl get deployment gitops-application
 ```
 
 Check the Pods:
 
 ```sh
-sudo k3s kubectl get pods -l app=asmae-bouhlal
+sudo k3s kubectl get pods -l app=gitops-application
 ```
 
 Check the Service:
 
 ```sh
-sudo k3s kubectl get service asmae-bouhlal
+sudo k3s kubectl get service gitops-application
 ```
 
 To access the ClusterIP Service from the local machine, use port forwarding:
 
 ```sh
-sudo k3s kubectl port-forward service/asmae-bouhlal 8080:80
+sudo k3s kubectl port-forward service/gitops-application 8080:80
 ```
 
 Then, from another terminal:

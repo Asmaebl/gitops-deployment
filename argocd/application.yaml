@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: asmae-bouhlal
+  name: gitops-application
   namespace: argocd
 spec:
   project: default
